@@ -12,11 +12,14 @@ def main():
     # parser.add_argument('choose_set', help='The alphabetical index of the data set')
     # args = parser.parse_args()
 
+    choose_set = 'F'
     # Read in input dataset
     script_directory = os.path.dirname(__file__)
     dirname = os.path.dirname(script_directory)
     #base_path = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-{args.choose_set}-{args.input_type}') 
-    base_path = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-B-Debug') 
+    base_path = os.path.join(dirname
+    , f'PROGRAMS\\2023_pa345_student_data\\PA3-{choose_set}-Debug') 
+    
 
 
     #Prolem3-BodyA.txt - 6 markers on Frame A and 1 tip 
@@ -80,9 +83,10 @@ def main():
     for i in range(len(a_frames_set)):
         registration_a = registration.calculate_3d_transformation(led_a, a_frames_set[i])
         registration_b = registration.calculate_3d_transformation(led_b, b_frames_set[i])
+        registration_b = np.linalg.inv(registration_b)
 
         # Perform matrix multiplication with the inverse
-        combined_registration = np.matmul(registration_a, registration_b)
+        combined_registration = np.matmul(registration_b, registration_a)
         transformed_tip_a = registration.apply_transformation_single_pt(tip_a, combined_registration)
 
         # Convert 1D arrays to 2D arrays
@@ -139,8 +143,7 @@ def main():
 
     # format output
     # output_name = f'PA3-{args.choose_set}-{args.input_type}-Output.txt'
-    output_name = f'PA3-A-Debug-Output.txt'
-
+    output_name = f'PA3-{choose_set}-Debug-Output.txt'
     max_length = max(max(len(f"{point:.3f}") for point in row if point is not None) for row in output)
 
     with open(output_name, "w") as file:
@@ -149,7 +152,7 @@ def main():
         for row in output:
             formatted_row = ' '.join(
             f"{point:>{max_length}.3f} " if point is not None else " " * (max_length) for point in row[:-1]  )
-            formatted_row += f"{row[-1]:>{max_length + 4}.3f}"  # Add extra space before the last element
+            formatted_row += f"{row[-1]:>{max_length}.3f}"  # Add extra space before the last element
             file.write(formatted_row + '\n')
 
  

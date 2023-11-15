@@ -7,18 +7,17 @@ import icp_library as icp
 
 def main(): 
     # User interface prompt that takes input from user
-    # parser = argparse.ArgumentParser(description='homework_3 input')
-    # parser.add_argument('input_type', help='The debug or unknown input data to process')
-    # parser.add_argument('choose_set', help='The alphabetical index of the data set')
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='homework_3 input')
+    parser.add_argument('choose_set', help='The alphabetical index of the data set')
+    parser.add_argument('input_type', help='The debug or unknown input data to process')
+    args = parser.parse_args()
 
-    choose_set = 'F'
+    # choose_set = 'F'
     # Read in input dataset
     script_directory = os.path.dirname(__file__)
     dirname = os.path.dirname(script_directory)
-    #base_path = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-{args.choose_set}-{args.input_type}') 
-    base_path = os.path.join(dirname
-    , f'PROGRAMS\\2023_pa345_student_data\\PA3-{choose_set}-Debug') 
+    base_path = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-{args.choose_set}-{args.input_type}') 
+    #base_path = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-{choose_set}-Debug') 
     
 
 
@@ -95,7 +94,7 @@ def main():
         tip_pos.append(two_d)
         
     d_k = np.concatenate(tip_pos, axis=1)
-    print(d_k)
+    # print(d_k)
     # print(tip_pos)
 
     # return tip_pos
@@ -118,17 +117,17 @@ def main():
         two_d = pt[:, np.newaxis]
         c_k.append(two_d)
     closest_pt = np.concatenate(c_k, axis=1)
-    print(closest_pt)
+    # print(closest_pt)
     
     # Step 3 
     distance = icp.calc_difference(c_k, tip_pos)
-    print(distance)
+    # print(distance)
     # put in returns from step 1 and step 2
     # return 15 distance 
 
     # format Output
-    # output_name = f'PA3-{args.choose_set}-{args.input_type}-Output.txt'
-    output_name = f'PA3-{choose_set}-Debug-Output.txt'
+    output_name = f'PA3-{args.choose_set}-{args.input_type}-Output.txt'
+    # output_name = f'PA3-{choose_set}-Debug-Output.txt'
 
         # Initialize the output list
     output = []

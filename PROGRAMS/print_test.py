@@ -1,5 +1,5 @@
 import numpy as np
-import ICP as ICP
+import icp_library as ICP
 
 def testProjectOnSegment(tolerance=1e-4):
     """

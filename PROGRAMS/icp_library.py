@@ -18,18 +18,25 @@ def find_closest_point(point, vertices, triangles):
 
     for i in range(num_triangles):
         # p, q, r = vertices[:, triangles[:, i]]
-        p = vertices[:, int(triangles[0][i])]
-        q = vertices[:, int(triangles[1][i])]
-        r = vertices[:, int(triangles[2][i])]
-        print(p,q,r)
+        p_index = int(triangles[0][i])
+        q_index = int(triangles[1][i])
+        r_index = int(triangles[2][i])
+
+        p = vertices[:, p_index]
+        q = vertices[:, q_index]
+        r = vertices[:, r_index]
+        # for a given triangle, print the 3D location of three vertices
+        # print(p_index, q_index, r_index)
+        # print(p,q,r)
+
         for j in range(3):
             S[j][0] = q[j] - p[j]
             S[j][1] = r[j] - p[j]
-
         b = point - p
         soln = la.lstsq(S, b, rcond=None)
         l = soln[0][0]
         m = soln[0][1]
+
         mid = p + l * (q - p) + m * (r - p)
 
         if l >= 0 and m >= 0 and l + m <= 1:
@@ -51,7 +58,7 @@ def find_closest_point(point, vertices, triangles):
 
         if dist < distance:
             distance = dist
-            closest_point = c_ij[: ,i]
+            minpoint = c_ij[: ,i]
 
     return minpoint
 
@@ -77,7 +84,6 @@ def project_on_segment(c, p, q):
 
     return c_star
 
-
 def calc_difference(c_k_points, d_k_points):
     """
     Calculates the Euclidean distance between corresponding points in two point clouds.
@@ -90,8 +96,7 @@ def calc_difference(c_k_points, d_k_points):
     """
     dist = np.zeros(np.shape(c_k_points)[0])
     for i in range(np.shape(c_k_points)[0]):
-
-        dist[i] = np.linalg.norm(d_k_points[i, :] - c_k_points[i, :])
+        dist[i] = np.linalg.norm(d_k_points[i] - c_k_points[i])
 
     return dist
 

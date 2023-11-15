@@ -128,31 +128,39 @@ def main():
 
     # format Output
     # output_name = f'PA3-{args.choose_set}-{args.input_type}-Output.txt'
+    output_name = f'PA3-{choose_set}-Debug-Output.txt'
 
-    # format Output
+        # Initialize the output list
     output = []
     for i in range(len(a_frames_set)):
+        # Transpose the data
         dk = np.transpose(tip_pos[i])
         ck = np.transpose(c_k[i])
+
+        # Initialize a row with a single space, then extend with dk, another single space as a placeholder, and ck
         row = []
+        row.append(" ") # Single space before dk
         row.extend(dk.ravel())
-        row.append(None)  # Add a placeholder for extra space
+        row.append("    ") # Single space as a placeholder between dk and ck
         row.extend(ck.ravel())
-        row.append(round(distance[i], 3))  # Round to 3 decimal places
+
+        # Append the rounded distance to the row
+        row.append(round(distance[i], 3))
         output.append(row)
 
-    # format output
-    # output_name = f'PA3-{args.choose_set}-{args.input_type}-Output.txt'
-    output_name = f'PA3-{choose_set}-Debug-Output.txt'
-    max_length = max(max(len(f"{point:.3f}") for point in row if point is not None) for row in output)
+    # Determine the maximum length for formatting
+    max_length = max(max(len(f"{point:.2f}") for point in row if isinstance(point, float)) for row in output)
 
+    # Write to the file
     with open(output_name, "w") as file:
+        # Write the header line
         file.write(f'15 {output_name} 0\n')
 
+        # Format and write each row
         for row in output:
             formatted_row = ' '.join(
-            f"{point:>{max_length}.3f} " if point is not None else " " * (max_length) for point in row[:-1]  )
-            formatted_row += f"{row[-1]:>{max_length}.3f}"  # Add extra space before the last element
+                f"{point:>{max_length}.2f} " if isinstance(point, float) else point for point in row[:-1])
+            formatted_row += f"{row[-1]:>{max_length + 3}.3f}"
             file.write(formatted_row + '\n')
 
  

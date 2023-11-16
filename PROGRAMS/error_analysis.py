@@ -14,11 +14,23 @@ def read_coordinates(file_path):
     - A list of tuples, where each tuple contains the (x, y, z) coordinates.
     """
 
+    # with open(file_path, 'r') as file:
+    #     # Skip the header line
+    #     next(file)
+    #     # Extract and return the coordinates
+    #     return [tuple(map(float, line.strip().split(','))) for line in file]
+
     with open(file_path, 'r') as file:
         # Skip the header line
         next(file)
         # Extract and return the coordinates
-        return [tuple(map(float, line.strip().split(','))) for line in file]
+        coordinates = []
+        for line in file:
+            values = list(map(float, line.strip().split()))
+            # Assuming the format is x1 y1 z1 x2 y2 z2 additional_value
+            # Extract two sets of coordinates and ignore the additional_value
+            coordinates.append(((values[0], values[1], values[2]), (values[3], values[4], values[5])))
+        return coordinates
 
 def compute_error(computed_data, target_data):
     """
@@ -36,24 +48,24 @@ def compute_error(computed_data, target_data):
         raise ValueError("The number of computed data points must match the number of target data points.")
 
     # Calculate the Euclidean distance for each pair of points
-    errors = [np.linalg.norm(np.array(computed) - np.array(target)) for computed, target in
-              zip(computed_data, target_data)]
-    print(errors)
-    return errors
+    # errors = [np.linalg.norm(np.array(computed) - np.array(target)) for computed, target in
+    #           zip(computed_data, target_data)]
 
+    errors = [np.linalg.norm(np.array(computed) - np.array(target)) for computed, target in zip(computed_data, target_data)]
+    return errors
 
 def main():
     # User interface prompt that takes input from user
     parser = argparse.ArgumentParser(description='error analysis input')
-    parser.add_argument('input_type', help='The debug or unknown input data to process')
     parser.add_argument('choose_set', help='The alphabetical index of the data set')
+    parser.add_argument('input_type', help='The debug or unknown input data to process')
     args = parser.parse_args()
 
     # Read in input dataset
     script_directory = os.path.dirname(__file__)
     dirname = os.path.dirname(script_directory)
-    base_path_output = os.path.join(dirname, f'OUTPUT\\pa2-{args.input_type}-{args.choose_set}-output2.txt')
-    base_path_sample = os.path.join(dirname, f'PROGRAMS\\pa2_student_data\\pa2-{args.input_type}-{args.choose_set}-output2.txt')
+    base_path_output = os.path.join(dirname, f'OUTPUT\\PA3-{args.choose_set}-{args.input_type}-Output.txt')
+    base_path_sample = os.path.join(dirname, f'PROGRAMS\\2023_pa345_student_data\\PA3-{args.choose_set}-{args.input_type}-Output.txt')
     computed_data = read_coordinates(base_path_output)
     target_data = read_coordinates(base_path_sample)
     error = compute_error(computed_data, target_data)

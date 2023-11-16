@@ -9,26 +9,18 @@ def read_coordinates(file_path):
     Reads a file, skips the header, and extracts coordinates, assuming they are comma-separated.
 
     Parameters:
-    - file_path: Path to the file containing the (x, y, z) points.
+    - file_path: Path to the file containing two sets of (x, y, z) points.
     Returns:
-    - A list of tuples, where each tuple contains the (x, y, z) coordinates.
+    - A list of tuples, where each tuple contains two sets of (x, y, z) coordinates.
     """
-
-    # with open(file_path, 'r') as file:
-    #     # Skip the header line
-    #     next(file)
-    #     # Extract and return the coordinates
-    #     return [tuple(map(float, line.strip().split(','))) for line in file]
 
     with open(file_path, 'r') as file:
         # Skip the header line
         next(file)
-        # Extract and return the coordinates
+
         coordinates = []
         for line in file:
             values = list(map(float, line.strip().split()))
-            # Assuming the format is x1 y1 z1 x2 y2 z2 additional_value
-            # Extract two sets of coordinates and ignore the additional_value
             coordinates.append(((values[0], values[1], values[2]), (values[3], values[4], values[5])))
         return coordinates
 
@@ -46,10 +38,6 @@ def compute_error(computed_data, target_data):
 
     if len(computed_data) != len(target_data):
         raise ValueError("The number of computed data points must match the number of target data points.")
-
-    # Calculate the Euclidean distance for each pair of points
-    # errors = [np.linalg.norm(np.array(computed) - np.array(target)) for computed, target in
-    #           zip(computed_data, target_data)]
 
     errors = [np.linalg.norm(np.array(computed) - np.array(target)) for computed, target in zip(computed_data, target_data)]
     return errors

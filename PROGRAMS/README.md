@@ -11,7 +11,7 @@ distortion_library.py: the script that handles distortion correction based on Be
 
 icp_library.py: the script that computes the closest point on a 3D mesh surface to a given point through projection to line segment, return the 3D location of the respective vertices of the triangular mesh and evaluates the error between corresponding points in the two point cloud 
 
-homework_3.py: the driver code for programming assignment 3, which read in input data from source files stored under "pa345_student_data", performs set registration and finds the closest point on the triangular 3D mesh surface to the given pointer tip points, then output the result to a txt file named “PA3-{choose_set}-{input_type}-Output.txt.” Please refer to the report for more details.
+homework_3.py: the driver code for programming assignment 3, which read in input data from source files stored under "pa345_student_data", performs set registration and finds the closest point (vertex) on the triangular 3D mesh surface to the given pointer tip points, then output the result to a txt file named “PA3-{choose_set}-{input_type}-Output.txt.” Please refer to the report for more details.
 
 debug_test.py: the script that contains a series of unittest that examines the basic functionality of implementation in distortion library, calibration_library, icp_library and dataParsing_library which serves our debugging purpose during the development process
 
@@ -21,7 +21,7 @@ Terminal Commands:
 To run the driver code, please enter below in the terminal:
 python homework_3.py {choose_set} {input_type} 
 
-For example, "python .\homework_3.py A Unknown" 
+For example, "python .\homework_3.py A Debug" 
 
 To run the driver code, please enter below in the terminal:
 python debug_test.py

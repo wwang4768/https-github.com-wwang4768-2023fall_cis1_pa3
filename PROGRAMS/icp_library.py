@@ -75,13 +75,13 @@ def project_on_segment(c, p, q):
     Returns:
     c_star: The projected point on the line segment.
     """
-    # Compute the scalar projection of c onto the line defined by p and q
+    # compute the scalar projection of c onto the line defined by p and q
     lambda_ = np.dot(c - p, q - p) / np.dot(q - p, q - p)
 
-    # Clamp lambda to lie within the segment
+    # clamp lambda to lie within the segment
     lambda_seg = max(0, min(lambda_, 1))
 
-    # Compute the actual projection point on the segment
+    # compute the actual projection point on the segment
     c_star = p + lambda_seg * (q - p)
 
     return c_star
